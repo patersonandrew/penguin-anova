@@ -98,3 +98,38 @@ variances
 #only at this point is it responsible to use an ANOVA to compare means
 ```
 
+#3. One-way ANOVA
+
+-single factor is categorgical, has grups within it (species), and one variable we are testing (flipper length)
+
+Single Factor: common_name (species)
+Number of levels in the tactor: 3 (Chinstrap, Gentoo, Adelie)
+Random variable: flipper_length (mm)
+
+Is there a significant difference in mean flipper length (mm) for Female Chinstrap, Gentoo, Adelie penguins?
+
+```{r}
+#Ho: Mean flipper lengths across all species are equal
+#Ha: At least two means differ significantly
+
+#this function says, please compare means for this random variable, grouped by common name
+
+penguin_aov <- aov(flipper_length ~ common_name, data = penguins2)
+summary(penguin_aov) #summary here gives us more info from this outcome
+
+
+#If we take samples from these three groups and they actually come from ppopulations with the same flipper length, there is almost a zero percent chance we'd get means this or more different by random chance.
+
+#at least two samokes were taken from populations with different means
+
+#There is a significant difference in flipper length based on species. Or, means are not equal across the three different species. Which ones are different?  Are all three different from each other, or something else?
+
+#post-hoc testing using Tukey's HSD
+penguins_ph <- TukeyHSD(penguin_aov)
+penguins_ph
+
+#Ho is still that means are equal
+```
+
+Mean flipper lengths for Adelie, Gentoo, and Chinstrap peguins are all significantly different (F(df) = statistic, p < 0.001, $\alpha$ = .05 with post-hoc Tukey's HSD, $\alpha = 0.05$.
+
